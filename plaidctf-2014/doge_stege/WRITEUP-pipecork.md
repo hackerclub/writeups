@@ -32,9 +32,9 @@ Colors: 256
 [23, 14, 10, 7, 6, 6, 6, 6, 6, 10, 6, 6, 6, 6, 6]
 ```
 
-Well, I don't see anything. So at this point we could nudge it around in GIMP for a few hours hoping we find something. But it'd certainly be a lot easier to use Caesum's [Stegsolve](http://www.caesum.com/handbook/Stegsolve.jar) to check for any anomalies. Quickly paging through some palette options (arrows on the bottom after uploading an image) we can start to make out something using random color maps. On the right of the image, under "doge stege":
+Well, I don't see anything. So at this point we could nudge it around in GIMP for a few hours hoping we find something. But it'd certainly be a lot easier to use Caesum's [Stegsolve](http://www.caesum.com/handbook/Stegsolve.jar) to check for any anomalies. Quickly paging through some palette options (arrows on the bottom after uploading an image) we can start to make out something using random color maps, circled below in red:
 
-![Doge image with random color map](doge_stege-random.png)
+![Doge image with random color map](doge_stege-random-circled.png)
 
 Squinting our eyes and checking some other maps, we can make out the final key as `pctf{keep_doge_alive_2014}`
 
