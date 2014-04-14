@@ -9,7 +9,8 @@
 The flag is `pctf{keep_doge_alive_2014}`
 
 ## Recommended reading
-* <NONE>
+* [Hexcellents' steg checklist](http://koala.cs.pub.ro/hexcellents/wiki/kb/stegano/home)
+* [Caesum's steganography chapter](http://www.caesum.com/handbook/stego.htm)
 
 ## Other write-ups
 * <http://csrc.tamuc.edu/css/?p=156>
