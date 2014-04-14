@@ -92,12 +92,13 @@ Recommended reading:
 	$ ./hashpump -s "ef16c2bffbcf0b7567217f292f9c2a9a50885e01e002fa34db34c0bb916ed5c3" -d ";0:b" -a ";1:b" -k 8
     
     967ca6fa9eacfe716cd74db1b1db85800e451ca85d29bd27782832b9faa16ae1
-    /content/images/2014/Apr/1_home.png
+
 	;0:b\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`;1:b
 
 The hash that hashpump outputs is the new *hsh*, and the second string is the new, reversed, hex-encoded *auth* string, which needs to be turned the right way around and URL-encoded.
 
 This is what the *auth* cookie looks like the right way around, and properly encoded.
+
 	b%3A1%3B`%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%80b%3A0%3B
     
 Plug these in for the cookie values and suddenly *admin.php* looks like this:
