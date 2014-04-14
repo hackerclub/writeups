@@ -12,6 +12,7 @@ The flag is `flag{phpPhPphpPPPphpcoin}`.
 
 ## Recommended reading
 * [Everything you need to know about hash length extension attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
+* [Wikipedia: Length extension attack](http://en.wikipedia.org/wiki/Length%5C_extension%5C_attack)
 
 ## Links to other write-ups
 * <http://conceptofproof.wordpress.com/2014/04/13/plaidctf-2014-web-150-mtgox-writeup/>
