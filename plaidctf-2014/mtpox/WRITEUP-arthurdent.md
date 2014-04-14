@@ -2,11 +2,11 @@
 
 This is what the site looks like:
 
-{<24>}![Home Page](http://i.imgur.com/sZVdEiP.png)
+![Home Page](http://i.imgur.com/sZVdEiP.png)
 
 The admin page doesn't have a login option, it just says "Sorry, not authorized."
 
-{<23>}![Admin page](http://i.imgur.com/UDhGLnJ.png)
+![Admin page](http://i.imgur.com/UDhGLnJ.png)
 
 The page also set two cookies. One named *hsh*, and one named *auth*. *auth* is a URL encoded serialized PHP boolean `b:0;`. Setting *auth* to `b:1;` does nothing. (in fact it just gets reset)
 
@@ -18,11 +18,11 @@ The page also set two cookies. One named *hsh*, and one named *auth*. *auth* is 
 
 Visiting other pages on the site exposes a directory traversal vulnerability.
 
-{<18>}![Traversal Vuln](http://i.imgur.com/R9jiqHe.png)
+![Traversal Vuln](http://i.imgur.com/R9jiqHe.png)
 
 Substituting *index* for *admin.php* exposes the full admin.php source code.
 
-{<17>}![admin.php traversed](http://i.imgur.com/ERvPwIY.png)
+![admin.php traversed](http://i.imgur.com/ERvPwIY.png)
 
 The unrendered source looks like this:
 
@@ -62,7 +62,7 @@ The unrendered source looks like this:
 
 Taking a closer look at the source code confirms some previous suspicions and reveals how the *auth* cookie is created and checked. Retrieving the contents of *secrets.php* should be enough to forge new cookies!
 
-{<16>}![forbidden sauce](http://i.imgur.com/wmLNBDA.png)
+![forbidden sauce](http://i.imgur.com/wmLNBDA.png)
 
 What the hell! The source code of *secrets.php* isn't visible. The source of index.php reveals that The Plague had actually taken *some* precautionary measures to keep his secrets hidden. 
 
@@ -102,11 +102,11 @@ This is what the *auth* cookie looks like the right way around, and properly enc
     
 Plug these in for the cookie values and suddenly *admin.php* looks like this:
 
-{<10>}![Admin Panel](http://i.imgur.com/DZhJJmz.png)
+![Admin Panel](http://i.imgur.com/DZhJJmz.png)
 
 The only working ID is 0. All others return a blank page.
 
-{<27>}![1333337 coins](http://i.imgur.com/2QJzuD0.png)
+![1333337 coins](http://i.imgur.com/2QJzuD0.png)
 
 ## Step 3 - SQL Injection
 
@@ -120,4 +120,4 @@ From this point on, finding the key just takes some probing. The final query is 
 
 	1 UNION SELECT id FROM plaidcoin_wallets
     
-{<29>}![Win.](http://i.imgur.com/Im7rPxl.png)
+![Win.](http://i.imgur.com/Im7rPxl.png)
