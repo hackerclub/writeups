@@ -98,7 +98,6 @@ Recommended reading:
 The hash that hashpump outputs is the new *hsh*, and the second string is the new, reversed, hex-encoded *auth* string, which needs to be turned the right way around and URL-encoded.
 
 This is what the *auth* cookie looks like the right way around, and properly encoded.
-
 	b%3A1%3B`%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%80b%3A0%3B
     
 Plug these in for the cookie values and suddenly *admin.php* looks like this:
