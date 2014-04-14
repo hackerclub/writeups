@@ -76,7 +76,7 @@ There are several factors that have come into play here that make HLE possible.
 
 1. SHA-256 is vulnerable to hash length extension attacks.
 
-2. PHP unserialization will accept a valid input and ignore any data after the `;`. This means the *auth* cookie will always work as long as it starts with `b:0;`.
+2. PHP unserialization will accept a valid input and ignore any data after the `;`. This means the *auth* cookie will always work as long as it starts with `b:0;` or `b:1;`.
 
 3. The string at the end of the hashed text is reversed. This means any backwards data added to *hsh* will be at the beginning of the *auth* cookie.
 
