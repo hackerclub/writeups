@@ -8,14 +8,6 @@ The admin page doesn't have a login option, it just says "Sorry, not authorized.
 
 ![Admin page](http://i.imgur.com/UDhGLnJ.png)
 
-The page also set two cookies. One named *hsh*, and one named *auth*. *auth* is a URL encoded serialized PHP boolean `b:0;`. Setting *auth* to `b:1;` does nothing. (in fact it just gets reset)
-
-**auth:** `b%3A0%3B`
-
-*hsh* is a hash with a length of 64 characters. sha-256 is widely used and fits that description, so it's a safe bet. This cookie is probably protecting *auth*.
-
-**hsh:** `ef16c2bffbcf0b7567217f292f9c2a9a50885e01e002fa34db34c0bb916ed5c3`
-
 Visiting other pages on the site exposes a directory traversal vulnerability.
 
 ![Traversal Vuln](http://i.imgur.com/R9jiqHe.png)
@@ -60,11 +52,20 @@ The unrendered source looks like this:
     	else echo "Sorry, not authorized.";
 	?>
 
-Taking a closer look at the source code confirms some previous suspicions and reveals how the *auth* cookie is created and checked. Retrieving the contents of *secrets.php* should be enough to forge new cookies!
+Taking a closer look at the source code confirms some previous suspicions and reveals the mechanism behind authentication.
+
+The page set two cookies. The first is *auth*. *auth* is a URL encoded serialized PHP boolean `b:0;`. Setting *auth* to `b:1;` does nothing. (in fact it just gets reset)
+
+**auth:** `b%3A0%3B`
+
+*hsh* is a sha-256 hash that makes it impossible to forge *auth*. This cookie is hashed with `$SECRET`. a php variable that has to live in `secrets.php`
+
+**hsh:** `ef16c2bffbcf0b7567217f292f9c2a9a50885e01e002fa34db34c0bb916ed5c3`
+
 
 ![forbidden sauce](http://i.imgur.com/wmLNBDA.png)
 
-What the hell! The source code of *secrets.php* isn't visible. The source of index.php reveals that The Plague had actually taken *some* precautionary measures to keep his secrets hidden. 
+Unfortunately, the source code of *secrets.php* isn't visible. The source of index.php reveals that The Plague had actually taken *some* precautionary measures to keep his secrets hidden. 
 
 	if (strstr($_GET['page'], "secrets")) { echo "ERROR!\n"; }
 
