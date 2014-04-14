@@ -143,14 +143,14 @@ import telnetlib
 	global malloc pointer. When everything is in place the upper 
 	region of memory should look like this:
 	
-			          +----(shellcodeptr - 0x30)<---+
-	                  |                             |
-	                  v                             |
-	| mallocptr | shellcode | forged stdout ... write ptr
+                      +----(shellcodeptr - 0x30)<---+
+                      |                             |
+                      v                             |
+    | mallocptr | shellcode | forged stdout ... write ptr
                                 ^
                                 |
-	FILE <stdout>               |
-	| ptr to forged stdout -----+
+    FILE <stdout>               |
+    | ptr to forged stdout -----+
 
 	now when fflush is called on the hijacked FILE stream a shell will
 	drop!
