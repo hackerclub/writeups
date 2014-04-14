@@ -1,3 +1,7 @@
+# doge_stege writeup
+    Plaid CTF, 2014
+    Writeup by pipecork
+
 We start with our original image, a simple doge meme:
 ![original image](doge_stege.png)
 
