@@ -10,8 +10,8 @@
 The flag is `sincenewcryptomighthavensabackdoorsiuseoldcrypto`
 
 ## Recommended reading
-* http://en.wikipedia.org/wiki/Caesar\_cipher
-* http://www.simonsingh.net/The\_Black\_Chamber/crackingsubstitution.html
+* http://en.wikipedia.org/wiki/Caesar_cipher
+* http://www.simonsingh.net/The_Black_Chamber/crackingsubstitution.html
 * [The Codebook](http://www.amazon.com/The-Code-Book-Science-Cryptography/dp/0385495323) by Simon Singh
 
 <!--
