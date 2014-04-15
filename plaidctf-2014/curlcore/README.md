@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Forensics
+**Points:** 250
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> We managed to grab a memory dump off of The Plague's computer while he was making a secure download. We think he may have been looking for new places to hide the Prime Factorizer. Can you figure out what messages were sent through his computer?
 
 ## Flag
 

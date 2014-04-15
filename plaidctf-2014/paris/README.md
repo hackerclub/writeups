@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Reversing
+**Points:** 300
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> This binary was found on some of our Windows machines. It's got The Plague written all over it. What secrets are contained inside?
 
 ## Flag
 

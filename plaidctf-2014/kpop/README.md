@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Web
+**Points:** 200
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> Sometimes, the Plague leaves some of his old stuff up and running. We found a K-Pop lyrics website the Plague wrote back when he was learning to program. It was open-source, too! We believe there might be something important in /home/flag/flag. Could you get it for us?
 
 ## Flag
 

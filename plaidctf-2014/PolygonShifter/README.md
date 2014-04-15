@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Web
+**Points:** 100
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> The Plague has purchased the newest invention, Polygon Shifter to protect his website. This cutting edge technology is made available by Polygon Security, and they have a demo page on their website. They claim bots can no longer attack the website protected by the Polygon Shifter. Do we need to manually bruteforce the credentials?
 
 ## Flag
 

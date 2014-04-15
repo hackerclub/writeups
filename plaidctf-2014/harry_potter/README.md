@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Pwnables
+**Points:** 300
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> If only we could get into this system, running at 54.198.150.4:666, we might get an idea of where The Plague as been keeping the Prime Factorizer.
 
 ## Flag
 

@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Reversing
+**Points:** 300
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> We want to get access to a server used by The Plague. Maybe if you can find out what key is accepted by this binary you can find out where or when The Plague is...
 
 ## Flag
 

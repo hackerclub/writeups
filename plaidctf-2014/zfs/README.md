@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Forensics
+**Points:** 400
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> The Plague is using state of the art systems for storing his data. Our operatives managed to steal a drive from one of his servers, but it seems like our haste may have led to some uber-corruption. Can you get the data off the drive to track down The Plague?
 
 ## Flag
 

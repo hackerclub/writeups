@@ -1,12 +1,14 @@
 # Plaid CTF 2014: 
 
-**Category:** web
-**Points:** 150
+**Category:** Misc
+**Points:** 1
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> The key is poop
 
-## Links to other write-ups
+## Flag
 
-* <NONE>
+The flag is `poop`
+
+## Recommended reading
+
+* http://amzn.com/1560521171 

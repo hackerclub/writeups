@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Pwnables
+**Points:** 275
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> There's got to be a way to get into this service set up by the Plague at 54.80.112.128:1313. Can you find it?
 
 ## Flag
 

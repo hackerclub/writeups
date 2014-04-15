@@ -1,14 +1,11 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Web
+**Points:** 200
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> The Plague seems obsessed with internet memes, though we don't yet know why. Perhaps there is a clue to what he's up to on this server (epilepsy warning). If only you could break in.... Here is some of the source.
 
 ## Flag
-
 
 ## Recommended reading
 * <NONE>

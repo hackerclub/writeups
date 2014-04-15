@@ -1,11 +1,9 @@
 # Plaid CTF 2014: 
 
-**Category:** <cat>
-**Points:** <n points>
+**Category:** Reversing
+**Points:** 250
 
-> <flavor text goes here>
->
-> Hint: <any hints go here>
+> Can you reverse this program and find out what The Plague was working on? 
 
 ## Flag
 
