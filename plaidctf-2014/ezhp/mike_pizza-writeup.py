@@ -6,7 +6,7 @@ import struct
 import telnetlib
 
 """ 
-	mike_pizza
+    mike_pizza
     PlaidCTF 2014 ezhp writeup 
     (also a small introduction to heapoverflows)
 
@@ -94,15 +94,35 @@ import telnetlib
     choose the 'Change note' option. This option asks for a note index
     (starting at 0), a size of the content to be read in, and content
     itself. As you can see, an easy overflow exists. Simply create a 
-    new note with size 'x'. Now change the note specify a content 
+    new note with size 'x'. Now change the note specifying a content 
     size greater than 'x'.
 
     With this we can overwrite the heap meta-data which is associated with
     every bin! Knowing how the heap-allocator frees memory we can use our
-    overflow to write four bytes into the binary. To do this we can place
-    the addresses we want to write into the subsequent bin's meta-data
-    header, we then free the bin to cause the writes to occur. You can
-    reference the function do_arbwrite() below to see how precisely this
+    overflow to write four bytes into the binary. 
+
+
+    Bin 0 | size
+          | next
+          | prev
+          |  \    Overflow into Bin 1 
+          |  /
+          |  \
+          |  /
+    Bin 1 |  \    Overwriting Bin 1 metadata
+          |  /
+          |  \
+          |  /
+          |  v
+          | 's'
+          | 's'
+          | 'w'
+          | 'o'
+
+    
+    To do this we can place the addresses we want to write into the subsequent 
+    bin's meta-data header, we then free the bin to cause the writes to occur. 
+    You can reference the function do_arbwrite() below to see how precisely this
     is done, there is a small amount of adjustment that needs to be 
     performed on the desired 'write-to' address due to the offsets within 
     the bin structure, you can reference the function do_arbwrite() below
@@ -136,13 +156,13 @@ import telnetlib
 
     --[ The Exploit
 
-	This exploit hijacks the stdout structure pointer in the FILE 
+    This exploit hijacks the stdout structure pointer in the FILE 
     stream struct. The value it hijacks it with is a pointer to a 
     forged stdout structure which itself contains a pointer to our 
-	shellcode. We place this forged stdout stucture just past the 
-	global malloc pointer. When everything is in place the upper 
-	region of memory should look like this:
-	
+    shellcode. We place this forged stdout stucture just past the 
+    global malloc pointer. When everything is in place the upper 
+    region of memory should look like this:
+
                       +----(shellcodeptr - 0x30)<---+
                       |                             |
                       v                             |
@@ -152,8 +172,8 @@ import telnetlib
     FILE <stdout>               |
     | ptr to forged stdout -----+
 
-	now when fflush is called on the hijacked FILE stream a shell will
-	drop!
+    now when fflush is called on the hijacked FILE stream a shell will
+    drop!
 """
 
 mallocptr  = 0x804b060
