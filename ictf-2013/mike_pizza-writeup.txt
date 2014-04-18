@@ -1,0 +1,180 @@
+# Nick Stephens
+## iCTF 2013 Write Up 
+
+-- Temperature
+
+temperature was a python script which would query a flatfile database of an obfuscated name.
+It was a server which would ask the client whether they would like to (essentially) read or
+write data. Reading consisted of entering a date and location, with those in hand the server
+would attempt to fetch a corresponding temperature. Writing consisted of providing the server
+with a date, location, and temperature (all unfiltered strings), at which point these would
+be entered into the primitive datastore. The first challenge consisted of deobfuscating the 
+name of this datastore. It was very simple to reverse. The obfuscation just took the form of 
+deterministic replacements and hex encoded strings, and it revealed the entries were being 
+stored in a file a called 'neverguess'. Next it was time to determine what the vulnerabilitieswere. These were also obvious. There existed two different shell injection vulnerabilities,
+one in the read application and another in the write. Both inputs were concatenated into 
+a command string:
+        Read command:
+            "cat %s | grep %s | grep %s | awk '{print $3}'"
+            
+        Write command:
+            "echo \"%s %s %s\" >> %s"
+            
+These commands strings were then passed (with format glyphs replaced) to os.popen and 
+os.system function respectively. These functions are implemented by simply invoking 
+sh -c <argument>, so this allows us to use the expressiveness of the shell's command language
+to get the server to execute arbitrary commands. The simplest way to do this is to place the 
+command within backticks '`...`' or '$(...)', which replaces the output of the encapsulated 
+command onto the command line as a shell argument. Despite this, I decided to go with a more
+pythonic and robust solution to the problem.
+
+Using the systemcalls open, read, and write allowed us to actually check agains each field in 
+the datastore individually. These systemcalls are all provided by the python wrapper functions
+of the same name.
+
+(Note: given the exploit submission's demands, the check_call and check_output commands will
+not work as an effective defense against submitted exploits in the field)
+
+exploit:
+<---------------->
+import socket
+
+# exploit for 'temperature'
+class Exploit():
+
+	def __init__(self):
+		self.flag = ""
+	
+	def execute(self, ip, port, flag_id):
+		s = socket.create_connection((ip, port))
+		data = s.recv(1024);
+		s.send("1\n")
+		s.recv(1024)
+		s.send(flag_id + "\n")
+		s.recv(1024)
+		s.send("\"\"\n")
+		flg = s.recv(1024)
+
+		self.flag = flg.strip('\n')
+
+	def result(self):
+		return {'FLAG': self.flag}	
+<---------------->
+
+patch:
+<++++++++++++++++>
+
+    # reading
+    search = (time, location) 
+    f = open("neverguess", "r")
+    all = f.read()
+    lines = all.split("\n")
+    response = ""
+    for l in lines:
+        entry = l.split(" ")
+        if (entry[0] = search[0] and entry[1] == search[1]):
+            response = " ".join(entry[2:])
+    s.send(response) 
+
+    ...     
+    
+    # writing
+    input = " ".join(time, location, temperature)
+    f = open("neverguess", "w")
+    f.write(input + "\n")
+    f.close()
+<++++++++++++++++>
+
+-- Noradioactive
+
+With this challenge we were presented with .pyo file. A 'pyo' file is a collection of 
+python byte code, which runs on the python virtual machine. This is a very highlevel set 
+of assembly instructions, as such we are able to easily decompile the file in highlevel 
+python. Once this was done we were able to quickly determine that this was a web 
+application. The flag_id parameter gave us a hint to help us determine what our exploit 
+was supposed to accomplish. For this service we were supposed to retrieve a serial number 
+for an arbitrary username. 
+
+The web application's frontend content was entirely in Swahili, we translated these strings
+to their variable names which made things slightly more clear. After doing that, we explored
+the application. It was pretty simple (and was riddled with tons of bad design decisisons!)
+, allowing a user to register with a username, password, and serial number; login with just
+a username and password; and submit locations around the world with levels of radioactivity.
+When viewing these entered locations a field above the table display the serial number
+registered, this is what we needed to retreive. The application used session cookies to 
+determine the content of this page. The login function would return a session cookie, and the
+register function obviously added a new username and password relation to the user table.
+
+We made a few observations about the web application that allowed us to craft an exploit:
+
+o  The application allowed you to register the same username multiple times, logging in once
+   registered would allow the attacker to see all entered location/radiation entries, but not
+   the registered serial number, which is what we wanted.
+
+o  When authenticating a user, the application would look upon the submitted session cookie.
+   It would take this cookie and query the session database with it, from this it would 
+   recieve a username which it would then use to make further queries about the 
+   location/radiation entries and the serial number. It is important to note that it was only
+   this username that was used to retrieve the goods. This is what allowed us to steal the
+   legitimately entered location/radiation combinations, but unfortunately registering the 
+   same username would require us to enter a password and serial number, when this was
+   entered into the database it would overwrite the serial number we want to retrieve.
+
+o  When registering a user the application would be inconsisted about sanitization. Inside the
+   application was a sanitization function would remove all characters which did not belong
+   to the character-whitelist from a given string. The inconsistency existed between
+   error-checking and database insertion. When the data for a user was submitted for
+   registration, the application would check that these strings were nonempty, if they passed
+   the test, the application would then sanitize the strings and insert them into the 
+   database.
+
+Using these observations we could determine a sequence of events which would allow us to 
+reveal the serial number of an arbitrary user. Given a username, we could register a user
+of the same name with a known password. We would register a serial number with this user
+which consisted only of strings NOT belonging to the sanitization whitelist. When this entry
+was inserted into the database the password for the username would be overwritten, but not
+serial number. Now we could login with the user and use the returned session cookie to 
+view the serial number the legitimate user entered!
+
+exploit:
+<---------------->
+
+import socket, httplib, urllib
+ 
+class Exploit():
+ 
+	def __init__(self):
+		self.flag = ""
+	 
+	def execute(self, ip, port, flag_id):
+		params = urllib.urlencode({'username': flag_id, 'password': 'z', 'serial': '`'})
+		lparams = urllib.urlencode({'username': flag_id, 'password': 'z'})
+		headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+		connl = httplib.HTTPConnection(ip, port)
+		connl.request("POST", "/register", params, headers)
+		connl.getresponse().read()
+		connl.request("POST", "/login", lparams, headers)
+		cookie = connl.getresponse().getheaders()[1][1]
+		headers["Cookie"] = cookie
+		connl.request("GET", "/", "", headers)
+		exploit = connl.getresponse().read().split('[')[1].split(']')[0].split(':')[1].strip()
+ 
+		self.flag = exploit
+ 
+	def result(self):
+		return {'FLAG': self.flag}
+<---------------->
+
+patch:
+<++++++++++++++++>
+
+    def register(self):
+        username = self.sanitize(form.get('username'))
+        password = self.sanitize(form.get('password'))
+        serial   = self.sanitize(form.get('serial'))
+        if (username == '' or password == '' or serial == ''):
+            return
+        else:
+            self.insert(username,password,serial)
+
+<++++++++++++++++>
