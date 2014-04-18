@@ -30,12 +30,31 @@ import telnetlib
     [ name ] [ portrait] [ attack name ] [ health ] [ attack power ] [ stat function ptr ]
 
     Because this data was just a stream each pokemon needed to have its own function
-    to find the stats within the data stream. Each one of these functions would known
+    to find the stats within the data stream. Each one of these functions would know
     where the portrait, attack power, health, and attack name of the pokemon were inside
     the stream. When the command "Inspect your Pokemon" was entered, the program would
     march down the pokemon party array for each valid pokemon in this array the program
-    would consult another global array, this other array had the identifiers of the every
-    party member by index. This identifier was then used determine the location of the
+    would consult another global array, this other array had the identifiers of every
+    party member by index. 
+
+    For example:
+
+    Pokemon Party:
+    0 - ptr into heap to pokemon stream ----> [ "Bird Jesus" ] [ "  --- (portrait --- " ]
+    1 - ptr into heap to pokemon stream ----> [ "Kakuna" ] [ ... ]
+
+    Pokemon Identifiers:
+    0 - 3 ; pigeot's identifier
+    1 - 1 ; kakuna's identifier
+
+    When print_stats function saw the first index of of the pokemon party array it would 
+    then consult the pokemon identifier array's first index. Seeing that this value was
+    one, it knew it was dealing with a Kakuna, so it knew to look 0x210 bytes into 
+    kakuna's stream to find the stat function pointer. On the other hand when the program
+    encountered the pokemon identifier of 3 for "Bird Jesus", it knew that it had to look
+    some 0x500 bytes into the stream to find a "Bird Jesus" function pointer.
+    
+    This identifier was then used determine the location of the
     stat function pointer inside of a given pokemon data stream. So if we are able to some
     how disrupt the pokemon identifier array we can get the program to call a function
     pointer somewhere within memory we control (via the 'Change Pokemon artwork' option).
