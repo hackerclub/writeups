@@ -10,6 +10,14 @@ import telnetlib
     PlaidCTF 2014 ezhp writeup 
     (also a small introduction to heapoverflows)
 
+    NOTE: when I originally solved this challenge, I was unaware
+    of the differences between Full and Partial RELRO. This binary
+    was in fact compiled with only Partial RELRO allowing writes
+    to the GOT to the succeed, allowing a simpler method of 
+    redirecting the program counter. The technique I provide in this
+    writeup would bypass Full RELRO, but unfortunately that was
+    unnecessary.
+
     This challenge presented a simple note-taking program with 
     an interactive menu. You could add notes, change the contents
     of notes, remove notes, and print notes. 
