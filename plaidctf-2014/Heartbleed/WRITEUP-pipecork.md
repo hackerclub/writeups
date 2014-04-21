@@ -2,7 +2,7 @@
     Plaid CTF, 2014
     Writeup by pipecork
 
-How topical! The [Heartbleed bug](http://heartbleed.com) was only just disclosed the Monday previous, and this weekend there's a challenge on it. There's been plenty of PoC scripts floating around this week, I used [a popular python exploit](ssltest.py) that's been making the rounds.
+How topical! The [Heartbleed bug](http://heartbleed.com) was only just disclosed the Monday previous, and this weekend there's a challenge on it. There's been plenty of PoC scripts floating around this week, I used [a popular python exploit](WRITEUP-pipecork-files/ssltest.py) that's been making the rounds.
 
 I like this particular one because it's been updated to allow for specifying TLS version. Good thing too, because using TLS version 1 and 3 doesn't look vulnerable. But version 2...
 
