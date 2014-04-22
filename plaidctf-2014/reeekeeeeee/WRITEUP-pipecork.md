@@ -2,7 +2,7 @@
     Plaid CTF, 2014
     writeup by pipecork
 
-Upon a hideously awesome flashing background, visiting the site prompts us to register an account. We create the user account 'les' and login. We're prompted to "make a meme" by supplying the URL to an image and some overlay text. Our created memes are then displayed on the page. While a fun activity on a Saturday night, we have a flag to find. Let's check the source for some vulns.
+Upon a hideously awesome flashing background, visiting the site asks us to register an account. We create the user account 'les' and login. We're prompted to "make a meme" by supplying the URL to an image and some overlay text. Our created memes are then displayed on the page. While a fun activity on a Saturday night, we have a flag to find. Let's check the source for some vulns.
 
 The file [views.py](reekee/mymeme/views.py) holds the meat of the application. We see they do a lot of concatenation of the username onto directory paths in the `viewmeme` function:
 
@@ -33,14 +33,18 @@ if (".." in username) or ("/" in username):
 Drat. Eventually in a stroke of genius by mike_pizza, we spot small error in the code that downloads the meme image from a supplied URL:
 
 ```python
+. . .
+
 try:
   if "http://" in url:
     image = urllib2.urlopen(url)
   else:
     image = urllib2.urlopen("http://"+url)
+
+. . .
 ```
 
-The if statement only checks if the string 'http://' is in the supplied URL... not if it actually starts with it! We can use 'file://' with urllib's urlopen function to grab files from the server. Passing `file:///etc/passwd#http://` as a meme url confirms our suspicions by uploading the server's passwd file as one of our memes:
+The if statement only checks if the string "http://" is in the supplied URL... not if it actually starts with it! We can use `file://` with urllib's `urlopen` function to grab files from the server. Passing `file:///etc/passwd#http://` as a meme url confirms our suspicions by uploading the server's passwd file as one of our memes:
 
 ```
 root:x:0:0:root:/root:/bin/bash
@@ -105,7 +109,6 @@ give_me_the_flag.exe  mymeme  use_exe_to_read_me.txt
 $ ./give_me_the_flag.exe
 flag: why_did_they_make_me_write_web_apps
 write: Success
-$
 ```
 
 Bingo! The flag is `why_did_they_make_me_write_web_apps`.
