@@ -100,7 +100,7 @@ This is the secret key used to sign the SessionID that's then serialized by Pick
 
 This is where we have to give thanks to others before us (such as [Erik Romijn](http://erik.io/blog/2013/04/26/proof-of-concept-arbitrary-remote-code-execution-pickle-sessions/)) for their wonderful prior work on building PoC code to exploit this. Using their work saved us some serious time in solving this challenge.
 
-First we start listening on a port on our machine, with `nc -lp 1337`. We used a [Django specific exploit](django-exploit.py) to send a Python [connect back shell](connback.py), which connects to our listening port, giving us a shell on the web server! Let's check the home directories:
+First we start listening on a port on our machine, with `nc -lp 1337`. We used a [Django specific exploit](WRITEUP-pipecork-files/django-exploit.py) to send a Python [connect back shell](WRITEUP-pipecork-files/connback.py), which connects to our listening port, giving us a shell on the web server! Let's check the home directories:
 
 ```bash
 $ cd /home/reekeeplus
